@@ -98,11 +98,11 @@ class ClassifierKNN(Classifier):
         """ rend la proportion de +1 parmi les k ppv de x (valeur réelle)
             x: une description : un ndarray
         """
-        distance = np.argsort([np.linalg.norm(x - y) for y in self.desc])
-        p = sum([1 for a in range(self.k) if self.label[distance[a]] == +1])/self.k
-        return 2*(p - 0.5)
-
-        # raise NotImplementedError("Please Implement this method")
+        dist= np.linalg.norm(self.desc-x, axis=1)
+        argsort= np.argsort(dist)
+        score= np.sum(self.label[argsort[:self.k]] == 1)
+        return 2 * (score/self.k - 0.5)
+        raise NotImplementedError("Please Implement this method")
 
     def predict(self, x):
         """ rend la prediction sur x (-1 ou +1)
