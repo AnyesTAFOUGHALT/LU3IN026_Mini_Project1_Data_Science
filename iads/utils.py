@@ -18,7 +18,31 @@ import random
 
 # ------------------------ 
 
+
+def crossval_strat(X, Y, n_iterations, iteration):
+    index_pos = [i for i in range(len(Y)) if Y[i] == 1]
+    index_neg = [i for i in range(len(Y)) if Y[i] == -1]
+
+    index_pos_test = index_pos[iteration*(len(index_pos) // n_iterations): (
+        iteration+1)*(len(index_pos) // n_iterations)]
+    index_neg_test = index_neg[iteration*(len(index_neg) // n_iterations): (
+        iteration+1)*(len(index_neg) // n_iterations)]
+
+    Xtest = np.concatenate((X[index_neg_test], X[index_pos_test]))
+    Ytest = np.concatenate((Y[index_neg_test], Y[index_pos_test]))
+
+    #index_pos_app =  index_pos[:iteration*(len(index_pos) // n_iterations )] + index_pos[(iteration+1)*(len(index_pos) // n_iterations ) :]
+    #index_neg_app = index_neg[:iteration*(len(index_neg) // n_iterations)] + index_neg[(iteration+1)*(len(index_neg) // n_iterations ) :]
+    index_app = [i for i in range(len(Y)) if (
+        (i not in index_pos_test) and (i not in index_neg_test))]
+
+    Xapp = X[index_app]
+    Yapp = Y[index_app]
+    return Xapp, Yapp, Xtest, Ytest
+
 # genere_dataset_uniform:
+
+
 def genere_dataset_uniform(p, n, binf=-1, bsup=1):
     """ int * int * float^2 -> tuple[ndarray, ndarray]
         Hyp: n est pair
