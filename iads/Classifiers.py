@@ -91,6 +91,7 @@ class ClassifierKNN(Classifier):
                 - k (int) : nombre de voisins à considérer
             Hypothèse : input_dimension > 0
         """
+        self.input_dimension = input_dimension
         self.k = k
         # raise NotImplementedError("Please Implement this method")
 
